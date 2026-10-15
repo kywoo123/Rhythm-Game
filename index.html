@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>CYBERBEAT 2077 - NEON RHYTHM OVERDRIVE</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Rajdhani:wght@500;600;700&family=Syncopate:wght@700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        * {
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+        }
+
+        body {
+            font-family: 'Orbitron', sans-serif;
+            background: #03020a;
+            color: #fff;
+            overflow: hidden;
+        }
+
+        .subtitle-font {
+            font-family: 'Rajdhani', sans-serif;
+        }
+
+        .title-font {
+            font-family: 'Syncopate', sans-serif;
+        }
+
+        /* Glassmorphism Panels */
+        .glass-panel {
+            background: rgba(10, 12, 28, 0.72);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid rgba(0, 243, 255, 0.25);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(0, 243, 255, 0.08);
+        }
+
+        .glass-panel-pink {
+            border-color: rgba(255, 0, 127, 0.35);
+            box-shadow: 0 8px 32px 0 rgba(255, 0, 127, 0.2), inset 0 0 20px rgba(255, 0, 127, 0.1);
+        }
+
+        /* Neon Text Effects */
+        .neon-cyan {
+            color: #00f3ff;
+            text-shadow: 0 0 6px #00f3ff, 0 0 18px rgba(0, 243, 255, 0.8), 0 0 35px rgba(0, 243, 255, 0.4);
+        }
+
+        .neon-magenta {
+            color: #ff007f;
+            text-shadow: 0 0 6px #ff007f, 0 0 18px rgba(255, 0, 127, 0.8), 0 0 35px rgba(255, 0, 127, 0.4);
+        }
+
+        .neon-gold {
+            color: #ffcc00;
+            text-shadow: 0 0 6px #ffcc00, 0 0 18px rgba(255, 204, 0, 0.8);
+        }
+
+        .neon-purple {
+            color: #b026ff;
+            text-shadow: 0 0 6px #b026ff, 0 0 18px rgba(176, 38, 255, 0.8);
+        }
+
+        /* Cyber Buttons & Shimmer Animations */
+        .cyber-btn {
+            position: relative;
+            background: linear-gradient(135deg, rgba(0, 243, 255, 0.12) 0%, rgba(0, 243, 255, 0.02) 100%);
+            border: 1px solid rgba(0, 243, 255, 0.6);
+            color: #00f3ff;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            overflow: hidden;
+        }
+
+        .cyber-btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 243, 255, 0.4), transparent);
+            transition: 0.5s;
+        }
+
+        .cyber-btn:hover::before {
+            left: 100%;
+        }
+
+        .cyber-btn:hover, .cyber-btn:active {
+            background: rgba(0, 243, 255, 0.3);
+            border-color: #00f3ff;
+            box-shadow: 0 0 25px rgba(0, 243, 255, 0.7), inset 0 0 10px #00f3ff;
+            transform: translateY(-2px);
+        }
+
+        .cyber-btn-pink {
+            background: linear-gradient(135deg, rgba(255, 0, 127, 0.15) 0%, rgba(255, 0, 127, 0.02) 100%);
+            border-color: rgba(255, 0, 127, 0.6);
+            color: #ff007f;
+        }
+
+        .cyber-btn-pink::before {
+            background: linear-gradient(90deg, transparent, rgba(255, 0, 127, 0.4), transparent);
+        }
+
+        .cyber-btn-pink:hover, .cyber-btn-pink:active {
+            background: rgba(255, 0, 127, 0.35);
+            border-color: #ff007f;
+            box-shadow: 0 0 25px rgba(255, 0, 127, 0.8), inset 0 0 10px #ff007f;
+        }
+
+        /* Screen Shake */
+        .shake {
+            animation: shake 0.2s cubic-bezier(.36,.07,.19,.97) both;
+        }
+
+        @keyframes shake {
+            10%, 90% { transform: translate3d(-3px, 3px, 0); }
+            20%, 80% { transform: translate3d(5px, -4px, 0); }
+            30%, 50%, 70% { transform: translate3d(-6px, 6px, 0); }
+            40%, 60% { transform: translate3d(6px, -5px, 0); }
+        }
+
+        /* Floating Score Rating Popups */
+        .rating-popup {
+            position: absolute;
+            pointer-events: none;
+            font-weight: 900;
+            letter-spacing: 2px;
+            font-size: 2.2rem;
+            animation: popupAnim 0.55s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards;
+            z-index: 50;
+        }
+
+        @keyframes popupAnim {
+            0% { opacity: 0; transform: scale(0.2) translateY(30px); }
+            30% { opacity: 1; transform: scale(1.35) translateY(-10px); }
+            75% { opacity: 1; transform: scale(1) translateY(-25px); }
+            100% { opacity: 0; transform: scale(0.8) translateY(-45px); }
+        }
+
+        /* Scanlines Overlay */
+        .scanlines {
+            background: linear-gradient(
+                to bottom,
+                rgba(255,255,255,0),
+                rgba(255,255,255,0) 50%,
+                rgba(0, 0, 0, 0.3) 50%,
+                rgba(0, 0, 0, 0.3)
+            );
+            background-size: 100% 4px;
+        }
+
+        /* Touch Control Keys */
+        .lane-key-btn {
+            background: linear-gradient(180deg, rgba(0, 243, 255, 0.05) 0%, rgba(0, 243, 255, 0.25) 100%);
+            border: 1px solid rgba(0, 243, 255, 0.5);
+            transition: all 0.08s ease;
+        }
+
+        .lane-key-btn.pressed {
+            background: rgba(0, 243, 255, 0.7);
+            box-shadow: 0 0 30px #00f3ff, inset 0 0 15px #ffffff;
+            transform: translateY(4px);
+        }
+
+        .lane-key-btn-pink {
+            background: linear-gradient(180deg, rgba(255, 0, 127, 0.05) 0%, rgba(255, 0, 127, 0.25) 100%);
+            border-color: rgba(255, 0, 127, 0.5);
+        }
+
+        .lane-key-btn-pink.pressed {
+            background: rgba(255, 0, 127, 0.7);
+            box-shadow: 0 0 30px #ff007f, inset 0 0 15px #ffffff;
+        }
+
+        .lane-key-btn-purple {
+            background: linear-gradient(180deg, rgba(176, 38, 255, 0.05) 0%, rgba(176, 38, 255, 0.25) 100%);
+            border-color: rgba(176, 38, 255, 0.5);
+        }
+
+        .lane-key-btn-purple.pressed {
+            background: rgba(176, 38, 255, 0.7);
+            box-shadow: 0 0 30px #b026ff, inset 0 0 15px #ffffff;
+        }
+
+        .lane-key-btn-gold {
+            background: linear-gradient(180deg, rgba(255, 204, 0, 0.05) 0%, rgba(255, 204, 0, 0.25) 100%);
+            border-color: rgba(255, 204, 0, 0.5);
+        }
+
+        .lane-key-btn-gold.pressed {
+            background: rgba(255, 204, 0, 0.7);
+            box-shadow: 0 0 30px #ffcc00, inset 0 0 15px #ffffff;
+        }
+    </style>
+</head>
+<body class="w-screen h-screen flex flex-col items-center justify-between relative overflow-hidden select-none">
+
+    <!-- Subtle Retro Scanlines Layer -->
+    <div class="scanlines fixed inset-0 pointer-events-none z-40 opacity-25"></div>
+
+    <!-- Dynamic Animated Ambient Background Canvas -->
+    <canvas id="bgCanvas" class="fixed inset-0 pointer-events-none z-0"></canvas>
+
+    <!-- Top Score & Status Header HUD -->
+    <header class="w-full max-w-4xl p-2.5 sm:p-3.5 z-20 flex justify-between items-center glass-panel rounded-b-2xl mt-0 sm:mt-2">
+        <div class="flex items-center gap-3">
+            <h1 class="title-font text-base sm:text-2xl font-black italic tracking-widest neon-cyan flex items-center gap-2">
+                <i class="fa-solid fa-compact-disc animate-spin text-pink-500"></i> CYBER<span class="neon-magenta">BEAT</span>
+            </h1>
+            <span class="text-[9px] sm:text-xs bg-cyan-950/80 text-cyan-300 px-2 py-0.5 rounded-full border border-cyan-500/40 uppercase tracking-widest">OVERDRIVE</span>
+        </div>
+
+        <div class="flex items-center gap-3 sm:gap-6">
+            <div class="text-right">
+                <div class="subtitle-font text-[10px] sm:text-xs text-gray-400 font-bold tracking-widest">SCORE</div>
+                <div id="scoreText" class="text-base sm:text-xl font-black neon-cyan">000000</div>
+            </div>
+            <div class="text-right">
+                <div class="subtitle-font text-[10px] sm:text-xs text-gray-400 font-bold tracking-widest">ACCURACY</div>
+                <div id="accText" class="text-base sm:text-xl font-black neon-magenta">100%</div>
+            </div>
+            <div class="text-right hidden sm:block">
+                <div class="subtitle-font text-xs text-gray-400 font-bold tracking-widest">MULTIPLIER</div>
+                <div id="multiplierText" class="text-xl font-black neon-gold">1.0x</div>
+            </div>
+            <button id="btnPause" class="cyber-btn px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5">
+                <i class="fa-solid fa-pause"></i> <span class="hidden sm:inline">PAUSE</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Game Canvas Container -->
+    <main id="gameContainer" class="relative w-full max-w-lg h-full flex flex-col items-center justify-center z-10 py-1">
+        
+        <!-- Combo Counter Display -->
+        <div class="absolute top-10 sm:top-14 left-1/2 -translate-x-1/2 flex flex-col items-center pointer-events-none z-30">
+            <div id="comboNum" class="title-font text-4xl sm:text-6xl font-black neon-gold opacity-0 transition-transform duration-75 scale-90">0</div>
+            <div id="comboLabel" class="subtitle-font text-xs sm:text-sm font-extrabold tracking-widest text-yellow-300 opacity-0">COMBO</div>
+        </div>
+
+        <!-- Judgment Popup Layer -->
+        <div id="ratingLayer" class="absolute inset-0 pointer-events-none flex items-center justify-center z-40"></div>
+
+        <!-- Perspective 3D Highway Stage Canvas -->
+        <canvas id="stageCanvas" class="w-full h-full max-h-[80vh] sm:max-h-[82vh] rounded-2xl shadow-2xl"></canvas>
+
+        <!-- Touch Lane Keys (Mobile) -->
+        <div class="w-full grid grid-cols-4 gap-2 px-2 pb-2 mt-1 z-30 sm:hidden">
+            <button id="touchD" class="lane-key-btn py-3.5 rounded-xl flex flex-col items-center justify-center font-black text-lg text-cyan-300">D</button>
+            <button id="touchF" class="lane-key-btn lane-key-btn-pink py-3.5 rounded-xl flex flex-col items-center justify-center font-black text-lg text-pink-300">F</button>
+            <button id="touchJ" class="lane-key-btn lane-key-btn-purple py-3.5 rounded-xl flex flex-col items-center justify-center font-black text-lg text-purple-300">J</button>
+            <button id="touchK" class="lane-key-btn lane-key-btn-gold py-3.5 rounded-xl flex flex-col items-center justify-center font-black text-lg text-yellow-300">K</button>
+        </div>
+    </main>
+
+    <!-- Track Speed & Keybind Controls (Footer Desktop) -->
+    <footer class="w-full max-w-lg p-2 z-20 flex justify-between items-center text-xs text-gray-400 font-bold mb-1 hidden sm:flex">
+        <div class="flex items-center gap-2">
+            <span>SPEED:</span>
+            <button id="speedDown" class="cyber-btn px-2 py-0.5 rounded">-</button>
+            <span id="speedVal" class="text-cyan-400 font-black">1.5x</span>
+            <button id="speedUp" class="cyber-btn px-2 py-0.5 rounded">+</button>
+        </div>
+        <div class="flex gap-4">
+            <span>KEYBINDS: <b class="text-cyan-400">D  F  J  K</b></span>
+        </div>
+    </footer>
+
+    <!-- Overlay Screen (Menu / Pause / Results) -->
+    <div id="overlay" class="fixed inset-0 bg-black/85 glass-panel glass-panel-pink flex flex-col items-center justify-center gap-5 p-6 z-50 transition-all duration-300 overflow-y-auto">
+        
+        <!-- Header Title -->
+        <div class="text-center">
+            <h2 id="menuTitle" class="title-font text-3xl sm:text-5xl font-black italic neon-cyan mb-2 tracking-wider">
+                CYBER<span class="neon-magenta">BEAT</span> 2077
+            </h2>
+            <p id="menuSub" class="subtitle-font text-xs sm:text-sm text-cyan-300 tracking-widest uppercase">SELECT TRACK OR UPLOAD MP3 FILE</p>
+        </div>
+
+        <!-- Song Cards Container -->
+        <div id="songSelectBox" class="w-full max-w-md flex flex-col gap-3 my-1">
+            <button data-track="0" class="song-card cyber-btn p-3.5 rounded-xl flex justify-between items-center text-left border-cyan-400">
+                <div>
+                    <div class="font-black text-sm text-cyan-300">SYNTHWAVE CYBER-DRIVE</div>
+                    <div class="subtitle-font text-xs text-gray-400">128 BPM • Retro Synthwave</div>
+                </div>
+                <span class="bg-cyan-500/20 text-cyan-300 text-xs px-2.5 py-1 rounded-md border border-cyan-400/40 font-bold">EASY</span>
+            </button>
+
+            <button data-track="1" class="song-card cyber-btn cyber-btn-pink p-3.5 rounded-xl flex justify-between items-center text-left">
+                <div>
+                    <div class="font-black text-sm text-pink-300">NEON K-POP BEATS</div>
+                    <div class="subtitle-font text-xs text-gray-400">138 BPM • Electro Dance Beat</div>
+                </div>
+                <span class="bg-pink-500/20 text-pink-300 text-xs px-2.5 py-1 rounded-md border border-pink-400/40 font-bold">NORMAL</span>
+            </button>
+
+            <button data-track="2" class="song-card cyber-btn p-3.5 rounded-xl flex justify-between items-center text-left">
+                <div>
+                    <div class="font-black text-sm text-yellow-300">RETRO HYPER-SPEED</div>
+                    <div class="subtitle-font text-xs text-gray-400">160 BPM • Speedcore Synth</div>
+                </div>
+                <span class="bg-yellow-500/20 text-yellow-300 text-xs px-2.5 py-1 rounded-md border border-yellow-400/40 font-bold">HARD</span>
+            </button>
+
+            <!-- Custom Song File Upload -->
+            <label class="cyber-btn p-3.5 rounded-xl flex justify-between items-center cursor-pointer border-dashed border-purple-400/70 bg-purple-950/20 hover:bg-purple-900/40">
+                <div class="flex items-center gap-3">
+                    <i class="fa-solid fa-file-audio text-purple-400 text-xl"></i>
+                    <div>
+                        <div class="font-black text-sm text-purple-300">CUSTOM MP3 BEAT ANALYZER</div>
+                        <div class="subtitle-font text-xs text-gray-400">Upload .MP3 / .WAV (Auto Beat Gen)</div>
+                    </div>
+                </div>
+                <input type="file" id="audioUpload" accept="audio/*" class="hidden">
+            </label>
+        </div>
+
+        <!-- End-Game Results Breakdown Box (Hidden by default) -->
+        <div id="resultBox" class="w-full max-w-md hidden glass-panel rounded-xl p-4 flex-col gap-2 text-xs">
+            <div class="flex justify-between text-gray-300 font-bold"><span>PERFECT:</span><span id="resPerfect" class="neon-cyan">0</span></div>
+            <div class="flex justify-between text-gray-300 font-bold"><span>GREAT:</span><span id="resGreat" class="neon-gold">0</span></div>
+            <div class="flex justify-between text-gray-300 font-bold"><span>GOOD:</span><span id="resGood" class="neon-purple">0</span></div>
+            <div class="flex justify-between text-gray-300 font-bold"><span>MISS:</span><span id="resMiss" class="neon-magenta">0</span></div>
+            <div class="border-t border-gray-700 my-1"></div>
+            <div class="flex justify-between text-sm font-black text-white"><span>FINAL ACCURACY:</span><span id="resAcc" class="neon-cyan">0%</span></div>
+        </div>
+
+        <!-- Start/Action Button -->
+        <div class="flex gap-4 w-full max-w-md">
+            <button id="btnStart" class="flex-1 cyber-btn cyber-btn-pink py-3.5 rounded-xl text-base font-black tracking-widest shadow-lg">
+                START BEAT
+            </button>
+        </div>
+    </div>
+
+    <!-- JavaScript Game Engine -->
+    <script>
+        /* ==========================================================================
+           1. AUDIO ENGINE & SYNTHESIZER WITH REALTIME FREQUENCY ANALYZER
+           ========================================================================== */
+        class CyberAudioEngine {
+            constructor() {
+                this.ctx = null;
+                this.analyser = null;
+                this.customBuffer = null;
+                this.customSource = null;
+                this.isPlaying = false;
+                this.startTime = 0;
+                this.dataArray = new Uint8Array(32);
+            }
+
+            init() {
+                if (!this.ctx) {
+                    this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+                    this.analyser = this.ctx.createAnalyser();
+                    this.analyser.fftSize = 64;
+                    this.analyser.connect(this.ctx.destination);
+                }
+                if (this.ctx.state === 'suspended') {
+                    this.ctx.resume();
+                }
+            }
+
+            // Realtime Audio Energy Detection for Background Beat Pulse
+            getAudioBeatEnergy() {
+                if (!this.analyser) return 0;
+                this.analyser.getByteFrequencyData(this.dataArray);
+                let sum = 0;
+                for (let i = 0; i < 8; i++) sum += this.dataArray[i];
+                return sum / (8 * 255); // 0.0 to 1.0 energy ratio
+            }
+
+            // Synthesize Notes
+            playSynthNote(freq, type = 'sawtooth', duration = 0.15, vol = 0.18) {
+                if (!this.ctx) return;
+                try {
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = type;
+                    osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+                    
+                    gain.gain.setValueAtTime(vol, this.ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + duration);
+
+                    osc.connect(this.analyser);
+                    osc.start();
+                    osc.stop(this.ctx.currentTime + duration);
+                } catch(e) {}
+            }
+
+            // Drum Synthesizers for Hits
+            playKick() {
+                if (!this.ctx) return;
+                try {
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.frequency.setValueAtTime(140, this.ctx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.15);
+                    gain.gain.setValueAtTime(0.35, this.ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.15);
+                    osc.connect(this.analyser);
+                    osc.start();
+                    osc.stop(this.ctx.currentTime + 0.15);
+                } catch(e) {}
+            }
+
+            async loadCustomAudio(file) {
+                this.init();
+                const arrayBuffer = await file.arrayBuffer();
+                this.customBuffer = await this.ctx.decodeAudioData(arrayBuffer);
+            }
+
+            playCustomAudio(offset = 0) {
+                if (!this.customBuffer) return;
+                this.stopCustomAudio();
+                this.customSource = this.ctx.createBufferSource();
+                this.customSource.buffer = this.customBuffer;
+                this.customSource.connect(this.analyser);
+                this.startTime = this.ctx.currentTime - offset;
+                this.customSource.start(0, offset);
+                this.isPlaying = true;
+            }
+
+            stopCustomAudio() {
+                if (this.customSource) {
+                    try { this.customSource.stop(); } catch(e) {}
+                    this.customSource = null;
+                }
+                this.isPlaying = false;
+            }
+
+            getCurrentTime() {
+                if (this.customBuffer && this.isPlaying) {
+                    return this.ctx.currentTime - this.startTime;
+                }
+                return 0;
+            }
+        }
+
+        const audio = new CyberAudioEngine();
+
+        /* ==========================================================================
+           2. PROCEDURAL BEAT MAP GENERATOR & AUDIO ANALYZER
+           ========================================================================== */
+        const PRESET_TRACKS = [
+            { title: "SYNTHWAVE CYBER-DRIVE", bpm: 128, length: 60, baseFreqs: [261.63, 329.63, 392.00, 523.25] },
+            { title: "NEON K-POP BEATS", bpm: 138, length: 65, baseFreqs: [293.66, 349.23, 440.00, 587.33] },
+            { title: "RETRO HYPER-SPEED", bpm: 160, length: 70, baseFreqs: [329.63, 392.00, 493.88, 659.25] }
+        ];
+
+        function generateBeatmap(trackIndex) {
+            const track = PRESET_TRACKS[trackIndex];
+            const notes = [];
+            const beatInterval = 60 / track.bpm;
+            const totalBeats = Math.floor(track.length / beatInterval);
+
+            for (let i = 8; i < totalBeats; i++) {
+                if (i % 2 === 0 || Math.random() > 0.35) {
+                    const lane = Math.floor(Math.random() * 4);
+                    notes.push({ lane, time: i * beatInterval, freq: track.baseFreqs[lane], hit: false, missed: false });
+                }
+                if (i % 8 === 0 && Math.random() > 0.3) {
+                    const lane2 = (Math.floor(Math.random() * 3) + 1) % 4;
+                    notes.push({ lane: lane2, time: i * beatInterval, freq: track.baseFreqs[lane2], hit: false, missed: false });
+                }
+            }
+            return notes;
+        }
+
+        function generateBeatmapFromAudioBuffer(buffer) {
+            const channelData = buffer.getChannelData(0);
+            const sampleRate = buffer.sampleRate;
+            const chunkSize = Math.floor(sampleRate * 0.04);
+            const notes = [];
+            const freqs = [261.63, 329.63, 392.00, 523.25];
+            let lastBeatTime = 0;
+
+            for (let i = 0; i < channelData.length; i += chunkSize) {
+                let sum = 0;
+                for (let j = 0; j < chunkSize && (i + j) < channelData.length; j++) {
+                    sum += Math.abs(channelData[i + j]);
+                }
+                const energy = sum / chunkSize;
+                const time = i / sampleRate;
+
+                if (energy > 0.20 && (time - lastBeatTime) > 0.20) {
+                    const lane = Math.floor(Math.random() * 4);
+                    notes.push({ lane, time, freq: freqs[lane], hit: false, missed: false });
+                    lastBeatTime = time;
+                }
+            }
+            return notes;
+        }
+
+        /* ==========================================================================
+           3. DYNAMIC AMBIENT BACKGROUND & AURORA CURTAINS
+           ========================================================================== */
+        const bgCanvas = document.getElementById('bgCanvas');
+        const bgCtx = bgCanvas.getContext('2d');
+        let bgParticles = [];
+        let auroraHue = 180;
+
+        function resizeBg() {
+            bgCanvas.width = window.innerWidth;
+            bgCanvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeBg);
+        resizeBg();
+
+        class AmbientParticle {
+            constructor() { this.reset(); }
+            reset() {
+                this.x = Math.random() * bgCanvas.width;
+                this.y = Math.random() * bgCanvas.height;
+                this.size = Math.random() * 2.5 + 0.5;
+                this.speedY = -(Math.random() * 1.5 + 0.3);
+                this.speedX = (Math.random() - 0.5) * 0.6;
+                this.color = Math.random() > 0.5 ? '#00f3ff' : (Math.random() > 0.5 ? '#ff007f' : '#b026ff');
+                this.alpha = Math.random() * 0.6 + 0.2;
+            }
+            update() {
+                this.y += this.speedY;
+                this.x += this.speedX;
+                if (this.y < 0) this.reset();
+            }
+            draw() {
+                bgCtx.save();
+                bgCtx.globalAlpha = this.alpha;
+                bgCtx.fillStyle = this.color;
+                bgCtx.shadowBlur = 12;
+                bgCtx.shadowColor = this.color;
+                bgCtx.beginPath();
+                bgCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                bgCtx.fill();
+                bgCtx.restore();
+            }
+        }
+
+        for (let i = 0; i < 80; i++) bgParticles.push(new AmbientParticle());
+
+        function drawBackground() {
+            auroraHue = (auroraHue + 0.2) % 360;
+            const energy = audio.getAudioBeatEnergy();
+
+            // Cosmic Gradient
+            const grad = bgCtx.createRadialGradient(
+                bgCanvas.width / 2, bgCanvas.height / 2, 50,
+                bgCanvas.width / 2, bgCanvas.height / 2, Math.max(bgCanvas.width, bgCanvas.height)
+            );
+            grad.addColorStop(0, `hsla(${auroraHue}, 80%, 8%, 0.95)`);
+            grad.addColorStop(1, '#03020a');
+
+            bgCtx.fillStyle = grad;
+            bgCtx.fillRect(0, 0, bgCanvas.width, bgCanvas.height);
+
+            // Audio Reactive Beat Glow Ring
+            if (energy > 0.1) {
+                bgCtx.save();
+                bgCtx.strokeStyle = `hsla(${auroraHue}, 100%, 50%, ${energy * 0.3})`;
+                bgCtx.lineWidth = energy * 20;
+                bgCtx.beginPath();
+                bgCtx.arc(bgCanvas.width / 2, bgCanvas.height / 2, 200 + energy * 100, 0, Math.PI * 2);
+                bgCtx.stroke();
+                bgCtx.restore();
+            }
+
+            bgParticles.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(drawBackground);
+        }
+        drawBackground();
+
+        /* ==========================================================================
+           4. 3D HIGHWAY CANVAS, PARTICLES & RHYTHM ENGINE
+           ========================================================================== */
+        const stageCanvas = document.getElementById('stageCanvas');
+        const ctx = stageCanvas.getContext('2d');
+
+        function resizeStage() {
+            const container = document.getElementById('gameContainer');
+            stageCanvas.width = container.clientWidth;
+            stageCanvas.height = container.clientHeight;
+        }
+        window.addEventListener('resize', resizeStage);
+        resizeStage();
+
+        // Gameplay State Variables
+        let currentTrackIdx = 0;
+        let isCustomTrack = false;
+        let activeNotes = [];
+        let gameScore = 0;
+        let combo = 0;
+        let maxCombo = 0;
+        let totalHits = 0;
+        let totalNotesCount = 0;
+        let noteSpeed = 1.5;
+        let gameTime = 0;
+        let lastFrameTime = 0;
+        let isPlaying = false;
+        let isPaused = false;
+
+        let perfCount = 0, greatCount = 0, goodCount = 0, missCount = 0;
+
+        const LANE_COLORS = [
+            { main: '#00f3ff', glow: 'rgba(0, 243, 255, 0.8)', key: 'D' },
+            { main: '#ff007f', glow: 'rgba(255, 0, 127, 0.8)', key: 'F' },
+            { main: '#b026ff', glow: 'rgba(176, 38, 255, 0.8)', key: 'J' },
+            { main: '#ffcc00', glow: 'rgba(255, 204, 0, 0.8)', key: 'K' }
+        ];
+
+        let lanePressed = [false, false, false, false];
+        let hitParticles = [];
+        let gridScrollOffset = 0;
+
+        // Particle Fireworks on Hit
+        class BurstParticle {
+            constructor(x, y, color) {
+                this.x = x;
+                this.y = y;
+                const angle = Math.random() * Math.PI * 2;
+                const speed = Math.random() * 9 + 2;
+                this.vx = Math.cos(angle) * speed;
+                this.vy = Math.sin(angle) * speed;
+                this.size = Math.random() * 5 + 2;
+                this.color = color;
+                this.life = 1.0;
+                this.decay = Math.random() * 0.04 + 0.03;
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.life -= this.decay;
+            }
+            draw(ctx) {
+                if (this.life <= 0) return;
+                ctx.save();
+                ctx.globalAlpha = this.life;
+                ctx.fillStyle = this.color;
+                ctx.shadowColor = this.color;
+                ctx.shadowBlur = 15;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        function triggerShake() {
+            const container = document.getElementById('gameContainer');
+            container.classList.remove('shake');
+            void container.offsetWidth;
+            container.classList.add('shake');
+        }
+
+        function showRating(text, colorClass) {
+            const layer = document.getElementById('ratingLayer');
+            const popup = document.createElement('div');
+            popup.className = `rating-popup ${colorClass}`;
+            popup.innerText = text;
+            layer.appendChild(popup);
+            setTimeout(() => popup.remove(), 550);
+        }
+
+        /* Perspective Projection Calculation */
+        function getPerspectivePos(lane, yRatio) {
+            const w = stageCanvas.width;
+            const h = stageCanvas.height;
+
+            const topW = w * 0.32;
+            const bottomW = w * 0.94;
+            const topY = h * 0.16;
+            const bottomY = h * 0.88;
+
+            const currentY = topY + (bottomY - topY) * yRatio;
+            const currentW = topW + (bottomW - topW) * yRatio;
+            const leftX = (w - currentW) / 2;
+
+            const laneW = currentW / 4;
+            const currentX = leftX + laneW * lane + laneW / 2;
+
+            return { x: currentX, y: currentY, width: laneW };
+        }
+
+        /* Render 3D Highway Stage & Audio Visualizer Bars */
+        function drawStage() {
+            const w = stageCanvas.width;
+            const h = stageCanvas.height;
+
+            ctx.clearRect(0, 0, w, h);
+
+            const pTopLeft = getPerspectivePos(0, 0);
+            const pTopRight = getPerspectivePos(3, 0);
+            const pBottomLeft = getPerspectivePos(0, 1);
+            const pBottomRight = getPerspectivePos(3, 1);
+
+            // 1. Draw 3D Highway Base Surface
+            ctx.save();
+            const grad = ctx.createLinearGradient(0, pTopLeft.y, 0, pBottomLeft.y);
+            grad.addColorStop(0, 'rgba(6, 10, 26, 0.9)');
+            grad.addColorStop(1, 'rgba(16, 22, 50, 0.96)');
+            ctx.fillStyle = grad;
+            ctx.beginPath();
+            ctx.moveTo(pTopLeft.x - pTopLeft.width / 2, pTopLeft.y);
+            ctx.lineTo(pTopRight.x + pTopRight.width / 2, pTopRight.y);
+            ctx.lineTo(pBottomRight.x + pBottomRight.width / 2, pBottomRight.y);
+            ctx.lineTo(pBottomLeft.x - pBottomLeft.width / 2, pBottomLeft.y);
+            ctx.closePath();
+            ctx.fill();
+
+            // 2. Animated Scrolling Highway Grid Lines
+            gridScrollOffset = (gridScrollOffset + 0.015 * noteSpeed) % 0.1;
+            ctx.strokeStyle = 'rgba(0, 243, 255, 0.18)';
+            ctx.lineWidth = 1.5;
+            for (let y = gridScrollOffset; y <= 1.0; y += 0.1) {
+                const pL = getPerspectivePos(0, y);
+                const pR = getPerspectivePos(3, y);
+                ctx.beginPath();
+                ctx.moveTo(pL.x - pL.width / 2, pL.y);
+                ctx.lineTo(pR.x + pR.width / 2, pR.y);
+                ctx.stroke();
+            }
+
+            // 3. Neon Border Lasers
+            ctx.strokeStyle = '#00f3ff';
+            ctx.lineWidth = 3.5;
+            ctx.shadowColor = '#00f3ff';
+            ctx.shadowBlur = 18;
+            ctx.beginPath();
+            ctx.moveTo(pTopLeft.x - pTopLeft.width / 2, pTopLeft.y);
+            ctx.lineTo(pBottomLeft.x - pBottomLeft.width / 2, pBottomLeft.y);
+            ctx.moveTo(pTopRight.x + pTopRight.width / 2, pTopRight.y);
+            ctx.lineTo(pBottomRight.x + pBottomRight.width / 2, pBottomRight.y);
+            ctx.stroke();
+
+            // 4. Lane Dividers
+            ctx.strokeStyle = 'rgba(0, 243, 255, 0.25)';
+            ctx.lineWidth = 1;
+            for (let l = 1; l < 4; l++) {
+                const p1 = getPerspectivePos(l, 0);
+                const p2 = getPerspectivePos(l, 1);
+                ctx.beginPath();
+                ctx.moveTo(p1.x - p1.width / 2, p1.y);
+                ctx.lineTo(p2.x - p2.width / 2, p2.y);
+                ctx.stroke();
+            }
+
+            // 5. Judgment Receptors / Target Hit Rings
+            const judgeY = 0.85;
+            for (let l = 0; l < 4; l++) {
+                const pos = getPerspectivePos(l, judgeY);
+                const col = LANE_COLORS[l];
+
+                ctx.save();
+                ctx.strokeStyle = col.main;
+                ctx.lineWidth = lanePressed[l] ? 5 : 3;
+                ctx.shadowColor = col.main;
+                ctx.shadowBlur = lanePressed[l] ? 25 : 12;
+
+                const ringW = pos.width * 0.75;
+                const ringH = 14;
+
+                ctx.beginPath();
+                ctx.ellipse(pos.x, pos.y, ringW / 2, ringH / 2, 0, 0, Math.PI * 2);
+                ctx.stroke();
+
+                if (lanePressed[l]) {
+                    ctx.fillStyle = col.glow;
+                    ctx.fill();
+                }
+                ctx.restore();
+            }
+
+            // 6. Side Audio-Reactive Visualizer Equalizer Bars
+            const energy = audio.getAudioBeatEnergy();
+            const barCount = 12;
+            for (let i = 0; i < barCount; i++) {
+                const yR = i / barCount;
+                const pL = getPerspectivePos(0, yR);
+                const pR = getPerspectivePos(3, yR);
+                const barHeight = (Math.sin(gameTime * 10 + i) * 0.5 + 0.5) * 30 * (1 + energy);
+
+                ctx.fillStyle = '#ff007f';
+                ctx.shadowColor = '#ff007f';
+                ctx.shadowBlur = 8;
+                // Left Equalizer Bar
+                ctx.fillRect(pL.x - pL.width / 2 - 12 - barHeight, pL.y, barHeight, 4);
+                // Right Equalizer Bar
+                ctx.fillRect(pR.x + pR.width / 2 + 12, pR.y, barHeight, 4);
+            }
+
+            ctx.restore();
+        }
+
+        /* Render Acrylic Glowing Notes with Trails */
+        function drawNotes() {
+            const travelTime = 1.8 / noteSpeed;
+
+            activeNotes.forEach(note => {
+                if (note.hit || note.missed) return;
+
+                const timeDiff = note.time - gameTime;
+                const yRatio = 0.85 - (timeDiff / travelTime) * 0.85;
+
+                if (yRatio >= -0.1 && yRatio <= 1.05) {
+                    const pos = getPerspectivePos(note.lane, yRatio);
+                    const col = LANE_COLORS[note.lane];
+
+                    ctx.save();
+                    ctx.shadowColor = col.main;
+                    ctx.shadowBlur = 18;
+
+                    const noteW = pos.width * 0.82;
+                    const noteH = 16 * (yRatio + 0.3);
+
+                    // Note Light Trail
+                    const trailPos = getPerspectivePos(note.lane, Math.max(0, yRatio - 0.08));
+                    const trailGrad = ctx.createLinearGradient(pos.x, pos.y, trailPos.x, trailPos.y);
+                    trailGrad.addColorStop(0, col.glow);
+                    trailGrad.addColorStop(1, 'transparent');
+                    ctx.fillStyle = trailGrad;
+                    ctx.beginPath();
+                    ctx.moveTo(pos.x - noteW / 2, pos.y);
+                    ctx.lineTo(pos.x + noteW / 2, pos.y);
+                    ctx.lineTo(trailPos.x + trailPos.width * 0.4, trailPos.y);
+                    ctx.lineTo(trailPos.x - trailPos.width * 0.4, trailPos.y);
+                    ctx.closePath();
+                    ctx.fill();
+
+                    // Main Acrylic Note Crystal Body
+                    const noteGrad = ctx.createLinearGradient(pos.x - noteW / 2, pos.y, pos.x + noteW / 2, pos.y);
+                    noteGrad.addColorStop(0, '#ffffff');
+                    noteGrad.addColorStop(0.3, col.main);
+                    noteGrad.addColorStop(1, '#050510');
+
+                    ctx.fillStyle = noteGrad;
+                    ctx.beginPath();
+                    ctx.roundRect(pos.x - noteW / 2, pos.y - noteH / 2, noteW, noteH, 6);
+                    ctx.fill();
+
+                    // Glowing Diamond Core
+                    ctx.fillStyle = '#ffffff';
+                    ctx.beginPath();
+                    ctx.arc(pos.x, pos.y, Math.max(2, 4 * yRatio), 0, Math.PI * 2);
+                    ctx.fill();
+
+                    ctx.restore();
+                }
+
+                // Check Missed Note
+                if (timeDiff < -0.22 && !note.missed && !note.hit) {
+                    note.missed = true;
+                    combo = 0;
+                    missCount++;
+                    updateHUD();
+                    showRating('MISS', 'neon-magenta');
+                }
+            });
+        }
+
+        /* Render Particles */
+        function drawParticles() {
+            hitParticles.forEach((p, idx) => {
+                p.update();
+                p.draw(ctx);
+                if (p.life <= 0) hitParticles.splice(idx, 1);
+            });
+        }
+
+        /* Update Score & Accuracy HUD */
+        function updateHUD() {
+            document.getElementById('scoreText').innerText = String(Math.floor(gameScore)).padStart(6, '0');
+            
+            const acc = totalNotesCount > 0 ? Math.round((totalHits / totalNotesCount) * 100) : 100;
+            document.getElementById('accText').innerText = `${acc}%`;
+
+            const multiplier = 1 + Math.min(3.0, Math.floor(combo / 10) * 0.2);
+            document.getElementById('multiplierText').innerText = `${multiplier.toFixed(1)}x`;
+
+            const comboNum = document.getElementById('comboNum');
+            const comboLabel = document.getElementById('comboLabel');
+
+            if (combo > 2) {
+                comboNum.innerText = combo;
+                comboNum.style.opacity = '1';
+                comboNum.style.transform = 'scale(1.15)';
+                comboLabel.style.opacity = '1';
+                setTimeout(() => comboNum.style.transform = 'scale(1)', 70);
+            } else {
+                comboNum.style.opacity = '0';
+                comboLabel.style.opacity = '0';
+            }
+        }
+
+        /* Hit Judgement Input Handler */
+        function handleLaneInput(lane) {
+            if (!isPlaying || isPaused) return;
+
+            lanePressed[lane] = true;
+            const touchBtn = [document.getElementById('touchD'), document.getElementById('touchF'), document.getElementById('touchJ'), document.getElementById('touchK')][lane];
+            if (touchBtn) touchBtn.classList.add('pressed');
+
+            const travelTime = 1.8 / noteSpeed;
+            let closestNote = null;
+            let minDiff = 999;
+
+            activeNotes.forEach(note => {
+                if (note.lane === lane && !note.hit && !note.missed) {
+                    const diff = Math.abs(note.time - gameTime);
+                    if (diff < minDiff) {
+                        minDiff = diff;
+                        closestNote = note;
+                    }
+                }
+            });
+
+            if (closestNote && minDiff < 0.20) {
+                closestNote.hit = true;
+                totalHits++;
+                combo++;
+                if (combo > maxCombo) maxCombo = combo;
+
+                let rating = 'GOOD';
+                let pts = 100;
+                let colorClass = 'neon-purple';
+
+                if (minDiff < 0.05) {
+                    rating = 'PERFECT!';
+                    pts = 300;
+                    colorClass = 'neon-cyan';
+                    perfCount++;
+                } else if (minDiff < 0.11) {
+                    rating = 'GREAT';
+                    pts = 200;
+                    colorClass = 'neon-gold';
+                    greatCount++;
+                } else {
+                    goodCount++;
+                }
+
+                const multiplier = 1 + Math.min(3.0, Math.floor(combo / 10) * 0.2);
+                gameScore += pts * multiplier;
+
+                // Play Hitsound FX
+                if (isCustomTrack) {
+                    audio.playKick();
+                } else {
+                    audio.playSynthNote(closestNote.freq, 'sawtooth', 0.15, 0.2);
+                }
+
+                // Spawn Spark Fireworks
+                const hitPos = getPerspectivePos(lane, 0.85);
+                for (let p = 0; p < 22; p++) {
+                    hitParticles.push(new BurstParticle(hitPos.x, hitPos.y, LANE_COLORS[lane].main));
+                }
+
+                if (combo >= 15) triggerShake();
+                showRating(rating, colorClass);
+                updateHUD();
+            }
+        }
+
+        function handleLaneRelease(lane) {
+            lanePressed[lane] = false;
+            const touchBtn = [document.getElementById('touchD'), document.getElementById('touchF'), document.getElementById('touchJ'), document.getElementById('touchK')][lane];
+            if (touchBtn) touchBtn.classList.remove('pressed');
+        }
+
+        /* Main Game Loop */
+        function gameLoop(timestamp) {
+            if (isPlaying && !isPaused) {
+                if (!lastFrameTime) lastFrameTime = timestamp;
+                const delta = (timestamp - lastFrameTime) / 1000;
+                lastFrameTime = timestamp;
+
+                if (isCustomTrack) {
+                    gameTime = audio.getCurrentTime();
+                } else {
+                    gameTime += delta;
+                }
+
+                drawStage();
+                drawNotes();
+                drawParticles();
+
+                // Check Completion
+                const lastNoteTime = activeNotes.length > 0 ? activeNotes[activeNotes.length - 1].time : 0;
+                if (gameTime > lastNoteTime + 2.2) {
+                    endGame();
+                }
+            }
+            requestAnimationFrame(gameLoop);
+        }
+
+        /* Game Loop Controls */
+        function startGame() {
+            audio.init();
+            gameScore = 0;
+            combo = 0;
+            maxCombo = 0;
+            totalHits = 0;
+            gameTime = 0;
+            lastFrameTime = 0;
+            hitParticles = [];
+            perfCount = 0; greatCount = 0; goodCount = 0; missCount = 0;
+
+            if (isCustomTrack) {
+                audio.playCustomAudio(0);
+            } else {
+                activeNotes = generateBeatmap(currentTrackIdx);
+            }
+
+            totalNotesCount = activeNotes.length;
+            isPlaying = true;
+            isPaused = false;
+
+            updateHUD();
+            document.getElementById('resultBox').classList.add('hidden');
+            document.getElementById('resultBox').classList.remove('flex');
+            document.getElementById('overlay').classList.add('hidden');
+        }
+
+        function togglePause() {
+            if (!isPlaying) return;
+            isPaused = !isPaused;
+            const overlay = document.getElementById('overlay');
+
+            if (isPaused) {
+                if (isCustomTrack) audio.stopCustomAudio();
+                document.getElementById('menuTitle').innerText = "PAUSED";
+                document.getElementById('menuSub').innerText = "SYSTEM SUSPENDED";
+                document.getElementById('btnStart').innerText = "RESUME BEAT";
+                overlay.classList.remove('hidden');
+            } else {
+                if (isCustomTrack) audio.playCustomAudio(gameTime);
+                overlay.classList.add('hidden');
+                lastFrameTime = performance.now();
+            }
+        }
+
+        function endGame() {
+            isPlaying = false;
+            if (isCustomTrack) audio.stopCustomAudio();
+
+            const overlay = document.getElementById('overlay');
+            document.getElementById('menuTitle').innerText = "STAGE CLEAR!";
+            document.getElementById('menuSub').innerText = `FINAL SCORE: ${Math.floor(gameScore)} | MAX COMBO: ${maxCombo}`;
+            
+            document.getElementById('resPerfect').innerText = perfCount;
+            document.getElementById('resGreat').innerText = greatCount;
+            document.getElementById('resGood').innerText = goodCount;
+            document.getElementById('resMiss').innerText = missCount;
+            
+            const acc = totalNotesCount > 0 ? Math.round((totalHits / totalNotesCount) * 100) : 100;
+            document.getElementById('resAcc').innerText = `${acc}%`;
+
+            const resBox = document.getElementById('resultBox');
+            resBox.classList.remove('hidden');
+            resBox.classList.add('flex');
+
+            document.getElementById('btnStart').innerText = "REPLAY STAGE";
+            overlay.classList.remove('hidden');
+        }
+
+        /* Keyboard & Touch Listeners */
+        const KEY_MAP = { 'd': 0, 'D': 0, 'f': 1, 'F': 1, 'j': 2, 'J': 2, 'k': 3, 'K': 3 };
+
+        window.addEventListener('keydown', e => {
+            if (KEY_MAP[e.key] !== undefined && !e.repeat) {
+                handleLaneInput(KEY_MAP[e.key]);
+            }
+            if (e.key === 'p' || e.key === 'P') togglePause();
+        });
+
+        window.addEventListener('keyup', e => {
+            if (KEY_MAP[e.key] !== undefined) {
+                handleLaneRelease(KEY_MAP[e.key]);
+            }
+        });
+
+        // Mobile Touch Events
+        [
+            { id: 'touchD', lane: 0 },
+            { id: 'touchF', lane: 1 },
+            { id: 'touchJ', lane: 2 },
+            { id: 'touchK', lane: 3 }
+        ].forEach(item => {
+            const btn = document.getElementById(item.id);
+            btn.addEventListener('touchstart', (e) => { e.preventDefault(); handleLaneInput(item.lane); });
+            btn.addEventListener('touchend', (e) => { e.preventDefault(); handleLaneRelease(item.lane); });
+        });
+
+        // Track Speed Settings
+        document.getElementById('speedUp').addEventListener('click', () => {
+            noteSpeed = Math.min(3.0, noteSpeed + 0.25);
+            document.getElementById('speedVal').innerText = `${noteSpeed.toFixed(1)}x`;
+        });
+        document.getElementById('speedDown').addEventListener('click', () => {
+            noteSpeed = Math.max(1.0, noteSpeed - 0.25);
+            document.getElementById('speedVal').innerText = `${noteSpeed.toFixed(1)}x`;
+        });
+
+        // Track Selection Cards
+        document.querySelectorAll('.song-card').forEach(card => {
+            card.addEventListener('click', () => {
+                document.querySelectorAll('.song-card').forEach(c => c.classList.remove('border-pink-500', 'border-cyan-400'));
+                card.classList.add('border-pink-500');
+                currentTrackIdx = parseInt(card.dataset.track);
+                isCustomTrack = false;
+            });
+        });
+
+        // Custom MP3 Audio File Loader
+        document.getElementById('audioUpload').addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                document.getElementById('menuSub').innerText = "ANALYZING AUDIO BEATS...";
+                await audio.loadCustomAudio(file);
+                activeNotes = generateBeatmapFromAudioBuffer(audio.customBuffer);
+                isCustomTrack = true;
+                document.getElementById('menuSub').innerText = `CUSTOM TRACK READY (${activeNotes.length} NOTES)`;
+            }
+        });
+
+        document.getElementById('btnStart').addEventListener('click', () => {
+            if (isPaused) {
+                togglePause();
+            } else {
+                startGame();
+            }
+        });
+
+        document.getElementById('btnPause').addEventListener('click', togglePause);
+
+        // Start render loop
+        requestAnimationFrame(gameLoop);
+    </script>
+</body>
+</html>
